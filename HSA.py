@@ -34,7 +34,7 @@ class Plot_Vars(object):
         
     def possible_starting_years(self):
         start_year = 1871
-        end_year = 2022
+        end_year = 2021
         num_models_possible = (end_year-self.time_window)-start_year+2 # Have to add 2 to be inclusive of the end and start year 
 
         starting_years_list = []
@@ -337,7 +337,6 @@ class Plot_Vars(object):
         # 2022 deposit limit is $3600. Model assumes this is added in total at start of year
         # Create a copy of just the relevant years of Real_Return_Percentage based on the time range and the starting year
         model_return_data = yearly_market_df.loc[starting_year:starting_year+self.time_window-1, 'Real_Return_Percentage'].copy()
-
         year_range = list(np.arange(1,self.time_window+1))
 
         YB_balance = self.starting_balance # Year Begin balance. Starts with just the beginning account value
@@ -689,10 +688,10 @@ class Plot_Vars(object):
         header = pn.pane.Markdown("# **<ins>HSA and Portfolio Success Analysis</ins>**", style={"color": color_font}, width=500, 
                             sizing_mode="stretch_width", margin=(10,5,10,15))
 
-        icon1 = pn.pane.PNG("fire.png",
+        icon1 = pn.pane.PNG("Assets/fire.png",
                         height=60, sizing_mode="fixed", align="center")
 
-        icon2 = pn.pane.PNG("stock-market.png", 
+        icon2 = pn.pane.PNG("Assets/stock-market.png", 
                         height=60, sizing_mode="fixed", align="center")
 
         # Put together title in a panel Row
@@ -835,7 +834,7 @@ class Plot_Vars(object):
     
     
 def historical_market_data():
-    market_data_df = pd.read_csv(r'C:\Users\bkeesey\Downloads\ie_Data.csv', header=7)
+    market_data_df = pd.read_csv(r'C:\Users\benjk\Documents\GitHub\fire_report\Data\ie_Data.csv', header=7)
     market_data_df = market_data_df.dropna(axis=1, how='all').dropna(axis=0, how='all')
     market_data_df = market_data_df.loc[market_data_df['Date'].notna()].copy()
     
