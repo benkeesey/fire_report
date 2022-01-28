@@ -29,7 +29,7 @@ def load_new_user_profile(user_var_series):
     mycursor.execute(sql, val)
     mydb.commit()
 
-    print(mycursor.rowcount, "record inserted.")
+    # print(mycursor.rowcount, "record inserted.")
     mydb.close()
 
 def return_user_profile(user_id):

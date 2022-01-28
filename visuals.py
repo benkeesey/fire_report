@@ -58,15 +58,15 @@ class Visualization(object):
 
     def spending_fire_plot(self, df, file_name):
         """ 
-        Creates a plot using matplotlib to track the Monte Carlo growth of models returned by the Monte_Carlo_Plot_Spending function. 
+        Creates a plot using matplotlib to track the backtested models returned by the Backtest_Plot_Spending function. 
         Saves a png of the plot in the Assets folder in the directory.
         
         # Parameters:
             df : pandas DataFrame object, default None
-                pandas DataFrame output from Monte_Carlo_Plot_Spending function for various Monte Carlo simulated returns.
+                pandas DataFrame output from Backtest_Plot_Spending function for various backtested returns.
 
             file_name : str, default None
-                If not provided '{Users Name}'s Monte Carlo Plot' is used.
+                If not provided '{Users Name}'s Backtesting Plot' is used.
                 
         # Returns:
             None
@@ -109,24 +109,24 @@ class Visualization(object):
 
         # plt.show()
         if file_name is None:
-            file_name=f"{self.name}'s' Monte Carlo Plot"
+            file_name=f"{self.name}'s' Backtesting Plot"
         plt.savefig(f'{file_name}.png', dpi=80, facecolor=self.color_background, bbox_inches='tight', pad_inches=0)
 
 
-    def Monte_Carlo_Plot_Growth_Comparison(self, account1, account1_name, account2, account2_name, cash_account):
+    def Backtesting_Plot_Growth_Comparison(self, account1, account1_name, account2, account2_name, cash_account):
         """ 
-        Creates a plot using matplotlib to compare multiple Monte Carlo growths using similar parameters. 
+        Creates a plot using matplotlib to compare multiple backtested growths using similar parameters. 
         Used to show a comparison of growth between different tax advantage accounts using otherwise similar parameters.
         
         # Parameters:
             account1 : pandas DataFrame object, default None
-                pandas DataFrame output from Monte_Carlo_Growth_Models function for the first account to compare.
+                pandas DataFrame output from Backtest_Growth_Models function for the first account to compare.
 
             account1_name : str, default None
                 Name to display for for the lables to identify what kind of account it is.
                 
             account2 : pandas DataFrame object, default None
-                pandas DataFrame output from Monte_Carlo_Growth_Models function for the second account to compare.
+                pandas DataFrame output from Backtest_Growth_Models function for the second account to compare.
 
             account2_name : str, default None
                 Name to display for for the lables to identify what kind of account it is.
@@ -201,15 +201,15 @@ class Visualization(object):
         currency_string = "Cash\nEnding\nBalance:\n${:,.0f}".format(num)
         plt.annotate(currency_string, (self.time_window+.5,num), color=self.color_3, verticalalignment='center')
         # Save Matplotlib figure as png file in Assets folder
-        plt.savefig('Assets/Monte_Carlo_Plot_Growth_Comparison.png', dpi=80, facecolor=self.color_background, bbox_inches='tight', pad_inches=0)
+        plt.savefig('Assets/Backtesting_Plot_Growth_Comparison.png', dpi=80, facecolor=self.color_background, bbox_inches='tight', pad_inches=0)
 
     
-    def Monte_Carlo_Plot_Spending_Statistics(self, df):
+    def Backtesting_Plot_Spending_Statistics(self, df):
         """ Calculated the percent of models that never fall below the spending total in their modeled account balance.
         
         # Parameters:
             df : pandas DataFrame object, default None
-                pandas DataFrame output from the Monte_Carlo_Plot_Spending function. Contains the modeled returns across a given time period.
+                pandas DataFrame output from the Backtest_Plot_Spending function. Contains the modeled returns across a given time period.
                 
         # Returns:
             success_percentage : Float, default None
@@ -255,9 +255,9 @@ class Visualization(object):
 
         # Parameters:
         liquid_df : pandas DataFrame, default None
-            DataFrame of the data used for the liquid assets spending_fire_plot. Used in this function to pass into Monte_Carlo_Plot_Spending_Statistics to show statistics over plots. 
+            DataFrame of the data used for the liquid assets spending_fire_plot. Used in this function to pass into Backtesting_Plot_Spending_Statistics to show statistics over plots. 
         net_df : pandas DataFrame, default None
-            DataFrame of the data used for the net assets spending_fire_plot. Used in this function to pass into Monte_Carlo_Plot_Spending_Statistics to show statistics over plots. 
+            DataFrame of the data used for the net assets spending_fire_plot. Used in this function to pass into Backtesting_Plot_Spending_Statistics to show statistics over plots. 
         save_filename : str, default None
             parameter if you want to change filename to something other than 'HSA and Portfolio Success Analysis'.
             
@@ -287,7 +287,7 @@ class Visualization(object):
 
         # Call Statistic function to get values to show in Dashboard
         # Show Statistics for Liquid Assets 
-        success_percentage, final_first_quartile, final_median, final_third_quartile = self.Monte_Carlo_Plot_Spending_Statistics(liquid_df)
+        success_percentage, final_first_quartile, final_median, final_third_quartile = self.Backtesting_Plot_Spending_Statistics(liquid_df)
         # Create Markdown Text fields of the statistics to show in Dashboard
         # Change the values to show in the correct currency string format
         final_first_quartile_str = "${:,.0f}".format(self.final_first_quartile)
@@ -313,7 +313,7 @@ class Visualization(object):
         liquid_stat_row = pn.Row(liquid_stat1, liquid_stat1_val, liquid_stat2, liquid_stat2_val, liquid_stat3, liquid_stat3_val, background=self.color_background, sizing_mode='fixed', width=1250, height=70)
         
         # Show Statistics for Net Assets 
-        success_percentage, final_first_quartile, final_median, final_third_quartile = self.Monte_Carlo_Plot_Spending_Statistics(net_df)
+        success_percentage, final_first_quartile, final_median, final_third_quartile = self.Backtesting_Plot_Spending_Statistics(net_df)
         # Create Markdown Text fields of the statistics to show in Dashboard
         # Change the values to show in the correct currency string format
         final_first_quartile_str = "${:,.0f}".format(self.final_first_quartile)
@@ -348,7 +348,7 @@ class Visualization(object):
         
         growth_plot_header = pn.Column(growth_plot_title, growth_plot_account_info, background=self.color_background, sizing_mode='fixed', width=1250, height=300)
         
-        growth_comparison_plot = pn.pane.PNG("Assets/Monte_Carlo_Plot_Growth_Comparison.png", sizing_mode="scale_both", align="center")
+        growth_comparison_plot = pn.pane.PNG("Assets/Backtesting_Plot_Growth_Comparison.png", sizing_mode="scale_both", align="center")
         growth_comparison_plot_row = pn.Row(growth_comparison_plot, background=self.color_background, width=1250)
 
         # FIRE Spending Plot Header Creation
@@ -360,11 +360,11 @@ class Visualization(object):
         
         
         
-        liquid_plot_filename = f"Assets/{self.name}'s Liquid Monte Carlo Plot.png"
+        liquid_plot_filename = f"Assets/{self.name}'s Liquid Backtesting Plot.png"
         liquid_plot = pn.pane.PNG(liquid_plot_filename, sizing_mode="scale_both", align="center")
         liquid_plot_row = pn.Row(liquid_plot, background=self.color_background, width=1250)
 
-        net_asset_plot = pn.pane.PNG(f"Assets/{self.name}'s Net Monte Carlo Plot.png", sizing_mode="scale_both", align="center")
+        net_asset_plot = pn.pane.PNG(f"Assets/{self.name}'s Net Backtesting Plot.png", sizing_mode="scale_both", align="center")
         net_asset_plot_row = pn.Row(net_asset_plot, background=self.color_background, width=1250)
 
 

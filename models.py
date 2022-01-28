@@ -53,7 +53,7 @@ class Model(object):
             start_year += 1
         return starting_years_list
 
-    def Monte_Carlo_Plot_Spending(self, yearly_market_df):
+    def Backtest_Plot_Spending(self, yearly_market_df):
         """ 
         Calls the model_account_returns_with_spending function for each possible starting year and appends the net and liquid asset pandas series to a DataFrame to be returned.
         
@@ -63,9 +63,9 @@ class Model(object):
                 
         # Returns:
             total_net_assets_df : pandas DataFrame object, default None
-                pandas DataFrame that contains all the possible Monte Carlo simulated models of net assets for all possible time intervals.
+                pandas DataFrame that contains all the possible backtested models of net assets for all possible time intervals.
             total_liquid_assets_df : pandas DataFrame object, default None
-                pandas DataFrame that contains all the possible Monte Carlo simulated models of liquid assets for all possible time intervals.
+                pandas DataFrame that contains all the possible backtested models of liquid assets for all possible time intervals.
         """
         total_liquid_assets_df = pd.DataFrame()
         total_net_assets_df = pd.DataFrame()
@@ -94,9 +94,9 @@ class Model(object):
                 
         # Returns:
             total_net_assets_df : pandas DataFrame object, default None
-                pandas DataFrame that contains all the possible Monte Carlo simulated models of net assets for all possible time intervals.
+                pandas DataFrame that contains all the possible backtested models of net assets for all possible time intervals.
             total_liquid_assets_df : pandas DataFrame object, default None
-                pandas DataFrame that contains all the possible Monte Carlo simulated models of liquid assets for all possible time intervals.
+                pandas DataFrame that contains all the possible backtested models of liquid assets for all possible time intervals.
         """
         # Create a copy of just the relevant years of Real_Return_Percentage based on the time range and the starting year
         model_return_data = yearly_market_df.loc[starting_year:starting_year+self.time_window-1, 'Real_Return_Percentage'].copy()
@@ -509,13 +509,13 @@ class Model(object):
 
         return net_return, liquid_balance
 
-    def Monte_Carlo_Growth_Models(self, account_type, yearly_market_df):
+    def Backtest_Growth_Models(self, account_type, yearly_market_df):
         """ 
-        Depending on the account type calls the correct modeling function for each of the possible starting years in the Monte Carlo comparison plot.
+        Depending on the account type calls the correct modeling function for each of the possible starting years in the backtesting comparison plot.
         
         # Parameters:
             account_type : str, default None
-                String for the name of the account type to use for the Monte Carlo calculation. Has to be one of the following ['HSA', 'Roth', 'Trade_401k', 'Brokerage']
+                String for the name of the account type to use for the backtesting calculation. Has to be one of the following ['HSA', 'Roth', 'Trade_401k', 'Brokerage']
             yearly_market_df : pandas DataFrame object, default None
                 pandas DataFrame that contains the yearly market returns used to model the account returns over the calculated time frame.
                 

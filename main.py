@@ -74,13 +74,13 @@ def main(user_id=None):
     retirement_age = The age the person plans of retiring. At this age they will stop contributing to their accounts and start withdrawing from them instead as spending.
     retirement_spend = Value person plans on spending per year in retirement (All calculated values are in Current Real Dollars.)
 
-    balance_brokerage = Currently balance in Brokerage accounts. Used in combined Liquid & Net worth Monte Carlo Plots
-    balance_401k = Currently balance in Traditional 401k accounts. Used in combined Liquid & Net worth Monte Carlo Plots
-    balance_HSA = Currently balance in HSA accounts. Used in combined Liquid & Net worth Monte Carlo Plots
-    balance_roth = Currently balance in Roth 401k accounts. Used in combined Liquid & Net worth Monte Carlo Plots 
+    balance_brokerage = Currently balance in Brokerage accounts. Used in combined Liquid & Net worth Backtesting Plots
+    balance_401k = Currently balance in Traditional 401k accounts. Used in combined Liquid & Net worth Backtesting Plots
+    balance_HSA = Currently balance in HSA accounts. Used in combined Liquid & Net worth Backtesting Plots
+    balance_roth = Currently balance in Roth 401k accounts. Used in combined Liquid & Net worth Backtesting Plots 
 
-    balance_HSA_qualified_expense = Currently balance of qualified medical expenses in HSA accounts. Used in combined Liquid & Net worth Monte Carlo Plots
-    balance_401k_contributions = Currently balance of contributions made to Traditonal 401k accounts.This is needed to help calculate the Capital Gains tax once retirement age is reached. Deposits need to be taken into account that were already made. Used in combined Liquid & Net worth Monte Carlo Plots NOTE: This should be 0 if balance_401k is also 0.
+    balance_HSA_qualified_expense = Currently balance of qualified medical expenses in HSA accounts. Used in combined Liquid & Net worth Backtesting Plots
+    balance_401k_contributions = Currently balance of contributions made to Traditonal 401k accounts.This is needed to help calculate the Capital Gains tax once retirement age is reached. Deposits need to be taken into account that were already made. Used in combined Liquid & Net worth Backtesting Plots NOTE: This should be 0 if balance_401k is also 0.
     
     # Investment growth parameters.
     HSA_contribution_limit = HSA contribution limit to use for the entire funding period in current Pre-Tax dollars.
@@ -124,14 +124,14 @@ def main(user_id=None):
     
     # If there is no input excel sheet just use some default values
     except:
-        default_profile = firedb.return_user_profile('John3660')
+        default_profile = firedb.return_user_profile('John3055')
         user_vars_dict = default_profile.T.to_dict()[0]
 
     # Initialize the Model class with the user defined variables.
     Model_instance = models.Model(**user_vars_dict)
-    # Create the Dataset models used of growth data for an HSA and a Brokerage account to use for the Monte_Carlo_Plot_Growth_Comparison Plot
-    HSA_models_df, HSA_models_liquid_df = Model_instance.Monte_Carlo_Growth_Models('HSA', yearly_market_df)
-    Brokerage_models_df, Brokerage_models_liquid_df = Model_instance.Monte_Carlo_Growth_Models('Brokerage', yearly_market_df)
+    # Create the Dataset models used of growth data for an HSA and a Brokerage account to use for the Backtesting_Plot_Growth_Comparison Plot
+    HSA_models_df, HSA_models_liquid_df = Model_instance.Backtest_Growth_Models('HSA', yearly_market_df)
+    Brokerage_models_df, Brokerage_models_liquid_df = Model_instance.Backtest_Growth_Models('Brokerage', yearly_market_df)
     # Get DataFrame of cash deposits that will be plotted in the comparison plot
     cash_balance_df = Model_instance.cash_balance()
 
@@ -140,16 +140,16 @@ def main(user_id=None):
     Visuals_instance = visuals.Visualization(**visual_param_dict)
 
     # Create instance of Visualization that inherits methods from models.Model to create visualizations and Dashboard
-    Visuals_instance.Monte_Carlo_Plot_Growth_Comparison(account1=HSA_models_df, 
+    Visuals_instance.Backtesting_Plot_Growth_Comparison(account1=HSA_models_df, 
         account1_name='HSA', account2=Brokerage_models_df, account2_name='Brokerage', cash_account=cash_balance_df)
 
 
     # Use the inherited method to calculate Total Spending Net and Liquid Assets DataFrames
-    Total_Net_Return_Spending_df, Total_Liquid_Return_Spending_df = Model_instance.Monte_Carlo_Plot_Spending(yearly_market_df)
+    Total_Net_Return_Spending_df, Total_Liquid_Return_Spending_df = Model_instance.Backtest_Plot_Spending(yearly_market_df)
 
     # Create total Net and Liquid Spending plots and save them to the Assets folder.
-    Visuals_instance.spending_fire_plot(df=Total_Net_Return_Spending_df, file_name=f"Assets/{Visuals_instance.name}'s Net Monte Carlo Plot")
-    Visuals_instance.spending_fire_plot(df=Total_Liquid_Return_Spending_df, file_name=f"Assets/{Visuals_instance.name}'s Liquid Monte Carlo Plot")
+    Visuals_instance.spending_fire_plot(df=Total_Net_Return_Spending_df, file_name=f"Assets/{Visuals_instance.name}'s Net Backtesting Plot")
+    Visuals_instance.spending_fire_plot(df=Total_Liquid_Return_Spending_df, file_name=f"Assets/{Visuals_instance.name}'s Liquid Backtesting Plot")
 
     # Call Dashboard method to produce final dashboard. The liquid and net DataFrames are needed to calculate statistics to display.
     Visuals_instance.Dashboard(Total_Liquid_Return_Spending_df, Total_Net_Return_Spending_df)
