@@ -1,4 +1,4 @@
-header_md = "# **<ins>HSA and Portfolio Success Analysis</ins>**"
+header_md = "# **<ins>Backtesting Portfolio Success Analysis</ins>**"
 
 intro_info_md = """
         ### The following information helps visualize possible retirement scenarios using the idea that future returns will likley fall between the best and worst historical returns. This analysis is heavily influenced by [<ins>FIRECalc</ins>](https://www.firecalc.com/).
@@ -24,7 +24,7 @@ growth_plot_account_info_md = """
         #### Each faint line represents one possible modeled year of growth for a specifc historic time range. The larger dashed lines are the average account values for each account type. The blue dotted line is the tracking the after tax cash deposits made.
         """
 
-spending_plot_title_md = "# <ins>FIRE (Financial Independence, Retire Early) Plot:</ins>"
+spending_plot_title_md = "# <ins>Retirement Success Plot:</ins>"
 
 spending_plot_info_md = """
         ### These plots shows total growths of all your accounts including retirement age and spending.
