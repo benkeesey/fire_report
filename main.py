@@ -17,7 +17,7 @@ def historical_market_data():
     # Returns:
     None
     """
-    market_data_df = pd.read_csv(r'C:\Users\benjk\Documents\GitHub\fire_report\Data\ie_Data.csv', header=7)
+    market_data_df = pd.read_csv(r'./Data/ie_data.csv', header=7)
     market_data_df = market_data_df.dropna(axis=1, how='all').dropna(axis=0, how='all')
     market_data_df = market_data_df.loc[market_data_df['Date'].notna()].copy()
     
@@ -108,24 +108,15 @@ def main(user_id=None):
     # Old method that does not pull historical data from mysql db
     # yearly_market_df = historical_market_data()
 
-    try:
-        if user_id != None:
-            user_vars_dict = firedb.return_user_profile(user_id).T.to_dict()[0]
-        else:
-            user_var_series = pd.read_excel(r'Data\input.xlsx', sheet_name='Input Parameters', index_col=1).drop('Unnamed: 0',axis=1)['Value']
-            user_vars_dict = user_var_series.to_dict()
+    user_var_series = pd.read_excel(r'Data\input.xlsx', sheet_name='', index_col=1).drop('Unnamed: 0',axis=1)['Value']
+    user_vars_dict = user_var_series.to_dict()
 
-            # NOTE: Could use UUID here or better method for uniquely identifying user. But this isn't really needed currently.
-            # Checks if the input template has been filled out. If it has it loads the new user information into the mysql db with a unique id from the name, age, and retirement_age.
-            user_id = str(user_var_series['name']) + str(user_var_series['age']) + str(user_var_series['retirement_age'])
-            user_var_series['user_id'] =  user_id
-            # Add new user info to mysql db
-            firedb.load_new_user_profile(user_var_series)
-    
-    # If there is no input excel sheet just use some default values
-    except:
-        default_profile = firedb.return_user_profile('John3055')
-        user_vars_dict = default_profile.T.to_dict()[0]
+    # NOTE: Could use UUID here or better method for uniquely identifying user. But this isn't really needed currently.
+    # Checks if the input template has been filled out. If it has it loads the new user information into the mysql db with a unique id from the name, age, and retirement_age.
+    user_id = str(user_var_series['name']) + str(user_var_series['age']) + str(user_var_series['retirement_age'])
+    user_var_series['user_id'] =  user_id
+    # Add new user info to mysql db
+
 
     # Initialize the Model class with the user defined variables.
     Model_instance = models.Model(**user_vars_dict)
