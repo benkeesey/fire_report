@@ -12,7 +12,9 @@ intro_info_md = """
 
         """
 
-growth_plot_title_md = "# <ins>HSA, Brokerage, and Cash Accounts Growth Comparison</ins>"
+growth_plot_title_md = (
+    "# <ins>HSA, Brokerage, and Cash Accounts Growth Comparison</ins>"
+)
 
 growth_plot_account_info_md = """
         ### This plot shows growths of different account types with same input parameters:
