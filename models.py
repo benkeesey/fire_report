@@ -75,8 +75,8 @@ class Model(object):
 
             Total_Net_Return_Spending, Total_Liquid_Return_Spending = self.model_account_returns_with_spending(inital_balance_dict, starting_year, yearly_market_df)
 
-            total_liquid_assets_df = total_liquid_assets_df.append(Total_Liquid_Return_Spending)
-            total_net_assets_df = total_net_assets_df.append(Total_Net_Return_Spending)
+            total_liquid_assets_df = pd.concat([total_liquid_assets_df, Total_Liquid_Return_Spending])
+            total_net_assets_df = pd.concat([total_net_assets_df, Total_Net_Return_Spending])
 
         return total_net_assets_df, total_liquid_assets_df
 
@@ -533,8 +533,8 @@ class Model(object):
             for starting_year in self.possible_starting_years():
                 net_return, liquid_balance = self.model_HSA_returns(yearly_market_df, starting_year)
                 # plt.plot(net_return, color=global_color_scheme[color_alt])
-                df = df.append(net_return)
-                liquid_df = liquid_df.append(liquid_balance)
+                df = pd.concat([df, net_return])
+                liquid_df = pd.concat([liquid_df, liquid_balance])
             
             # Transpose DataFrames for easier plotting
             df = df.T
@@ -547,8 +547,8 @@ class Model(object):
             for starting_year in self.possible_starting_years():
                 net_return, liquid_balance = self.model_roth_returns(yearly_market_df, starting_year)
                 # plt.plot(net_return, color=global_color_scheme[color_alt])
-                df = df.append(net_return)
-                liquid_df = liquid_df.append(liquid_balance)
+                df = pd.concat([df, net_return])
+                liquid_df = pd.concat([liquid_df, liquid_balance])
                 
             # Transpose DataFrames for easier plotting
             df = df.T
@@ -561,8 +561,8 @@ class Model(object):
             for starting_year in self.possible_starting_years():
                 net_return, liquid_balance = self.model_trad_401k_returns(yearly_market_df, starting_year)
                 # plt.plot(net_return, color=global_color_scheme[color_alt])
-                df = df.append(net_return)
-                liquid_df = liquid_df.append(liquid_balance)
+                df = pd.concat([df, net_return])
+                liquid_df = pd.concat([liquid_df, liquid_balance])
                 
             # Transpose DataFrames for easier plotting
             df = df.T
@@ -575,8 +575,8 @@ class Model(object):
             for starting_year in self.possible_starting_years():
                 net_return, liquid_balance = self.model_brokerage_returns(yearly_market_df, starting_year)
                 # plt.plot(net_return, color=global_color_scheme[color_alt])
-                df = df.append(net_return)
-                liquid_df = liquid_df.append(liquid_balance)
+                df = pd.concat([df, net_return])
+                liquid_df = pd.concat([liquid_df, liquid_balance])
                 
             # Transpose DataFrames for easier plotting
             df = df.T
